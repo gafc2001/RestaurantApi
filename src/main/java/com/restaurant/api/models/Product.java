@@ -1,13 +1,19 @@
-package com.restaurant.models;
+package com.restaurant.api.models;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -17,9 +23,13 @@ public class Product implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_product")
-	private int idProduct;
+	private Long idProduct;
 	
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_category")
 	private Category category;
+	
+	@Column(name = "name_product")
 	private String nameProduct;
 	
 	@Column(name = "price_product")
@@ -36,10 +46,9 @@ public class Product implements Serializable{
 		super();
 	}
 
-	public Product(int idProduct, Category category, String nameProduct, long priceProduct, boolean availableProduct,
+	public Product(Category category, String nameProduct, long priceProduct, boolean availableProduct,
 			String description) {
 		super();
-		this.idProduct = idProduct;
 		this.category = category;
 		this.nameProduct = nameProduct;
 		this.priceProduct = priceProduct;
@@ -48,7 +57,7 @@ public class Product implements Serializable{
 	}
 
 
-	public int getIdProduct() {
+	public Long getIdProduct() {
 		return idProduct;
 	}
 
@@ -78,7 +87,7 @@ public class Product implements Serializable{
 	}
 
 
-	public void setIdProduct(int idProduct) {
+	public void setIdProduct(Long idProduct) {
 		this.idProduct = idProduct;
 	}
 

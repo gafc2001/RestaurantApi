@@ -1,20 +1,32 @@
-package com.restaurant.models;
+package com.restaurant.api.models;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "order_detail")
 public class OrderDetail implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_order_detail")
-	private int idOrderDetail;
+	private Long idOrderDetail;
 	
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Product product;
+	
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_order")
 	private OrderDetail orderDetail;
 	
 	@Column(name = "quantity")
@@ -22,14 +34,13 @@ public class OrderDetail implements Serializable{
 	public OrderDetail() {
 		super();
 	}
-	public OrderDetail(int idOrderDetail, Product product, OrderDetail orderDetail, int quantity) {
+	public OrderDetail(Product product, OrderDetail orderDetail, int quantity) {
 		super();
-		this.idOrderDetail = idOrderDetail;
 		this.product = product;
 		this.orderDetail = orderDetail;
 		this.quantity = quantity;
 	}
-	public int getIdOrderDetail() {
+	public Long getIdOrderDetail() {
 		return idOrderDetail;
 	}
 	public Product getProduct() {
@@ -41,7 +52,7 @@ public class OrderDetail implements Serializable{
 	public int getQuantity() {
 		return quantity;
 	}
-	public void setIdOrderDetail(int idOrderDetail) {
+	public void setIdOrderDetail(Long idOrderDetail) {
 		this.idOrderDetail = idOrderDetail;
 	}
 	public void setProduct(Product product) {

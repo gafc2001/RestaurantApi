@@ -1,13 +1,18 @@
-package com.restaurant.models;
+package com.restaurant.api.models;
 
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,14 +27,22 @@ public class Chat implements Serializable{
 	@Column(name = "chat_name")
 	private String chatName;
 	
-	
+	@ManyToMany(cascade = {CascadeType.ALL})
+	@JoinTable(
+			name = "participants",
+			joinColumns = @JoinColumn(name = "id_chat"),
+			inverseJoinColumns =  @JoinColumn(name = "id_user"))
 	private List<User> users;
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "chat")
+	private List<Message> messages;
+	
+	
 	public Chat() {
 		super();
 	}
-	public Chat(int idChat, String chatName, List<User> users) {
+	public Chat(String chatName, List<User> users) {
 		super();
-		this.idChat = idChat;
 		this.chatName = chatName;
 		this.users = users;
 	}

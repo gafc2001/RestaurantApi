@@ -1,12 +1,19 @@
-package com.restaurant.models;
+package com.restaurant.api.models;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,9 +23,17 @@ public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_user")
-	private int idUser;
+	private Long idUser;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_role")
 	private RoleUser roleUser;
+	
+	@OneToMany(mappedBy = "user")
+	private List<OrderUser> orders;
+	
+	@ManyToMany(mappedBy = "users",cascade = {CascadeType.ALL})
+	private List<Chat> chats;
 	
 	@Column(name = "name_user")
 	private String nameUser;
@@ -34,17 +49,16 @@ public class User implements Serializable{
 	public User() {
 		super();
 	}
-	public User(int idUser, RoleUser roleUser, String nameUser, String profileUser, String emailUser,
+	public User(RoleUser roleUser, String nameUser, String profileUser, String emailUser,
 			String passwordUser) {
 		super();
-		this.idUser = idUser;
 		this.roleUser = roleUser;
 		this.nameUser = nameUser;
 		this.profileUser = profileUser;
 		this.emailUser = emailUser;
 		this.passwordUser = passwordUser;
 	}
-	public int getIdUser() {
+	public Long getIdUser() {
 		return idUser;
 	}
 	public RoleUser getRoleUser() {
@@ -62,7 +76,7 @@ public class User implements Serializable{
 	public String getPasswordUser() {
 		return passwordUser;
 	}
-	public void setIdUser(int idUser) {
+	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
 	public void setRoleUser(RoleUser roleUser) {

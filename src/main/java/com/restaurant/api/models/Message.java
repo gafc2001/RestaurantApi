@@ -1,12 +1,15 @@
-package com.restaurant.models;
+package com.restaurant.api.models;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -18,10 +21,15 @@ public class Message implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_message")
-	private int idMessage;
+	private Long idMessage;
 	
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private Chat chat;
+	
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private User user;
+	
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private OrderUser orderUser;
 	
 	@Column(name = "message")
@@ -30,9 +38,8 @@ public class Message implements Serializable{
 	@Column(name = "state")
 	private boolean state;
 	
-	public Message(int idMessage, Chat chat, User user, OrderUser orderUser, String message, boolean state) {
+	public Message(Chat chat, User user, OrderUser orderUser, String message, boolean state) {
 		super();
-		this.idMessage = idMessage;
 		this.chat = chat;
 		this.user = user;
 		this.orderUser = orderUser;
@@ -43,7 +50,7 @@ public class Message implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public int getIdMessage() {
+	public Long getIdMessage() {
 		return idMessage;
 	}
 	public Chat getChat() {
@@ -61,7 +68,7 @@ public class Message implements Serializable{
 	public boolean isState() {
 		return state;
 	}
-	public void setIdMessage(int idMessage) {
+	public void setIdMessage(Long idMessage) {
 		this.idMessage = idMessage;
 	}
 	public void setChat(Chat chat) {

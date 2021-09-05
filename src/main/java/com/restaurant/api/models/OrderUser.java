@@ -1,20 +1,41 @@
-package com.restaurant.models;
+package com.restaurant.api.models;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+
+@Entity
+@Table(name = "order_user")
 public class OrderUser implements Serializable {	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_order")
-	private int idOrder;
+	private Long idOrder;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_user")
 	private User user;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Payment payment;
+	
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "orderDetail")
+	private List<OrderDetail> orderDetails;
 	
 	@Column(name = "status_order")
 	private String statusOrder;
@@ -28,15 +49,14 @@ public class OrderUser implements Serializable {
 	public OrderUser() {
 		super();
 	}
-	public OrderUser(int idOrder, User user, String statusOrder, String description, long totalPrice) {
+	public OrderUser(User user, String statusOrder, String description, long totalPrice) {
 		super();
-		this.idOrder = idOrder;
 		this.user = user;
 		this.statusOrder = statusOrder;
 		this.description = description;
 		this.totalPrice = totalPrice;
 	}
-	public int getIdOrder() {
+	public Long getIdOrder() {
 		return idOrder;
 	}
 	public User getUser() {
@@ -51,7 +71,7 @@ public class OrderUser implements Serializable {
 	public long getTotalPrice() {
 		return totalPrice;
 	}
-	public void setIdOrder(int idOrder) {
+	public void setIdOrder(Long idOrder) {
 		this.idOrder = idOrder;
 	}
 	public void setUser(User user) {

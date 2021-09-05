@@ -1,12 +1,15 @@
-package com.restaurant.models;
+package com.restaurant.api.models;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,25 +19,29 @@ public class PaymentMethod implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_payment_method")
-	private int idPaymentMethod;
+	private Long idPaymentMethod;
 	
 	@Column(name = "name_payment_method")
 	private String namePaymentMethod;
-	public PaymentMethod(int idPaymentMethod, String namePaymentMethod) {
+	
+	@OneToMany(mappedBy = "paymentMethod",cascade = CascadeType.ALL)
+	private List<Payment> payments;
+	
+	
+	public PaymentMethod(String namePaymentMethod) {
 		super();
-		this.idPaymentMethod = idPaymentMethod;
 		this.namePaymentMethod = namePaymentMethod;
 	}
 	public PaymentMethod() {
 		super();
 	}
-	public int getIdPaymentMethod() {
+	public Long getIdPaymentMethod() {
 		return idPaymentMethod;
 	}
 	public String getNamePaymentMethod() {
 		return namePaymentMethod;
 	}
-	public void setIdPaymentMethod(int idPaymentMethod) {
+	public void setIdPaymentMethod(Long idPaymentMethod) {
 		this.idPaymentMethod = idPaymentMethod;
 	}
 	public void setNamePaymentMethod(String namePaymentMethod) {

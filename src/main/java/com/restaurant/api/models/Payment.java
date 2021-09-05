@@ -1,12 +1,17 @@
-package com.restaurant.models;
+package com.restaurant.api.models;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,8 +22,13 @@ public class Payment implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_payment")
-	private int idPayment;
+	private Long idPayment;
+	
+	@OneToOne(cascade = CascadeType.ALL)
 	private OrderUser orderUser;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "payment_method")
 	private PaymentMethod paymentMethod;
 	
 	@Column(name = "status_payment")
@@ -26,14 +36,13 @@ public class Payment implements Serializable{
 	public Payment() {
 		super();
 	}
-	public Payment(int idPayment, OrderUser orderUser, PaymentMethod paymentMethod, boolean statusPayment) {
+	public Payment(OrderUser orderUser, PaymentMethod paymentMethod, boolean statusPayment) {
 		super();
-		this.idPayment = idPayment;
 		this.orderUser = orderUser;
 		this.paymentMethod = paymentMethod;
 		this.statusPayment = statusPayment;
 	}
-	public int getIdPayment() {
+	public Long getIdPayment() {
 		return idPayment;
 	}
 	public OrderUser getOrderUser() {
@@ -45,7 +54,7 @@ public class Payment implements Serializable{
 	public boolean isStatusPayment() {
 		return statusPayment;
 	}
-	public void setIdPayment(int idPayment) {
+	public void setIdPayment(Long idPayment) {
 		this.idPayment = idPayment;
 	}
 	public void setOrderUser(OrderUser orderUser) {
