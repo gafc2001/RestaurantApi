@@ -30,9 +30,9 @@ public class CategoryController {
 		
 		List<Category> categories = _categoryService.getAllCategories();
 		
-		/*if(categories == null || categories.isEmpty()) {
+		if(categories == null || categories.isEmpty()) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
-		}*/
+		}
 		return new ResponseEntity<List<Category>>(categories,HttpStatus.OK);
 		
 	}
