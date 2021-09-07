@@ -30,9 +30,9 @@ public class HibernateConfiguration {
 		
 		DriverManagerDataSource driverDataSource = new DriverManagerDataSource();
 		driverDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		driverDataSource.setUsername("QlqJeWmNKz");
-		driverDataSource.setPassword("dvVQ7s6ZdI");
-		driverDataSource.setUrl("jdbc:mysql://remotemysql.com/QlqJeWmNKz");
+		driverDataSource.setUsername("sql10434852");
+		driverDataSource.setPassword("EElMdDDFHS");
+		driverDataSource.setUrl("jdbc:mysql://sql10.freesqldatabase.com/sql10434852");
 		return driverDataSource;
 	}
 	public Properties hibernateProperties() {

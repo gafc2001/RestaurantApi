@@ -82,7 +82,7 @@ public class UserController {
 		currentUser.setEmailUser(user.getEmailUser());
 		currentUser.setPasswordUser(user.getPasswordUser());
 		currentUser.setProfileUser(user.getProfileUser());
-		currentUser.setRoleUser(user.getRoleUser());
+		currentUser.setRoles(user.getRoles());
 		_userService.updateUser(currentUser);
 		
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);

@@ -25,7 +25,7 @@ public class RoleUser implements Serializable {
 	private String nameRole;
 	
 	
-	@OneToMany(mappedBy = "roleUser",fetch = FetchType.EAGER )
+	@OneToMany(mappedBy = "roles",fetch = FetchType.EAGER )
 	private List<User> user;
 	
 	public RoleUser() {
@@ -51,3 +51,4 @@ public class RoleUser implements Serializable {
 	
 	private static final long serialVersionUID = -5115978469393994501L;
 }
+
