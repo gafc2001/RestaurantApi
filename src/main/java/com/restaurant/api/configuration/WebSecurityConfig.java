@@ -20,7 +20,7 @@ import com.restaurant.api.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
  
 	@Autowired

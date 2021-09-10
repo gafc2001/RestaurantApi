@@ -32,7 +32,7 @@ import com.restaurant.api.security.JwtUtils;
 import com.restaurant.api.service.UserDetailsImpl;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "localhost:3000")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -101,22 +101,22 @@ public class AuthController {
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "admin":
-					RoleUser adminRole = roleRepository.findByNameRole("ROLE_ADMIN")
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(adminRole);
-
-					break;
-				case "mod":
-					RoleUser modRole = roleRepository.findByNameRole("ROLE_MODERATOR")
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(modRole);
-
-					break;
-				default:
-					RoleUser userRole = roleRepository.findByNameRole("ROLE_USER")
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(userRole);
+					case "admin":
+						RoleUser adminRole = roleRepository.findByNameRole("ROLE_ADMIN")
+								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						roles.add(adminRole);
+	
+						break;
+					case "mod":
+						RoleUser modRole = roleRepository.findByNameRole("ROLE_MODERATOR")
+								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						roles.add(modRole);
+	
+						break;
+					default:
+						RoleUser userRole = roleRepository.findByNameRole("ROLE_USER")
+								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+						roles.add(userRole);
 				}
 			});
 		}
