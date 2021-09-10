@@ -32,7 +32,7 @@ import com.restaurant.api.security.JwtUtils;
 import com.restaurant.api.service.UserDetailsImpl;
 
 
-@CrossOrigin(origins = "localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
