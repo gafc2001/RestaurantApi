@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class HibernateConfiguration {
 	
-	@Bean 
+	@Bean(name = "entityManagerFactory")
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean session= new LocalSessionFactoryBean();
 		session.setPackagesToScan("com.restaurant.api.models");

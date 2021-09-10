@@ -22,11 +22,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "user",
-		uniqueConstraints = {
-				@UniqueConstraint(columnNames = "nameUser"),
-				@UniqueConstraint(columnNames = "email")
-		})
+@Table(name = "user")
 public class User implements Serializable{
 
 	@Id
@@ -40,45 +36,33 @@ public class User implements Serializable{
 				inverseJoinColumns = @JoinColumn(name = "id_role"))
 	private Set<RoleUser> roles = new HashSet<>();
 	
-	@OneToMany(mappedBy = "user")
-	private List<OrderUser> orders;
-	
-	@ManyToMany(mappedBy = "users",cascade = {CascadeType.ALL})
-	private List<Chat> chats;
-	
-	@Column(name = "name_user")
+
+	@Column(name = "username")
 	@NotBlank
-	private String nameUser;
+	private String username;
 	
 	@Column(name = "profile_picture")
 	private String profileUser;
 	
 	@Email
-	@Column(name = "email_user")
+	@Column(name = "email")
 	@NotBlank
-	private String emailUser;
+	private String email;
 	
 	@Column(name = "password_user")
 	@NotBlank
-	private String passwordUser;
+	private String password;
 	public User() {
 		super();
 	}
 	
-	
-	
-	public User(Long idUser, Set<RoleUser> roles, String nameUser,
-			String profileUser, @Email String emailUser, String passwordUser) {
+	public User(@NotBlank String username, @Email @NotBlank String email, @NotBlank String password) {
 		super();
-		this.idUser = idUser;
-		this.roles = roles;
-		this.nameUser = nameUser;
-		this.profileUser = profileUser;
-		this.emailUser = emailUser;
-		this.passwordUser = passwordUser;
+		this.username = username;
+		this.email = email;
+		this.password = password;
 	}
 
-	
 
 	public Long getIdUser() {
 		return idUser;
@@ -92,20 +76,8 @@ public class User implements Serializable{
 
 
 
-	public List<OrderUser> getOrders() {
-		return orders;
-	}
-
-
-
-	public List<Chat> getChats() {
-		return chats;
-	}
-
-
-
-	public String getNameUser() {
-		return nameUser;
+	public String getUsername() {
+		return username;
 	}
 
 
@@ -116,14 +88,14 @@ public class User implements Serializable{
 
 
 
-	public String getEmailUser() {
-		return emailUser;
+	public String getEmail() {
+		return email;
 	}
 
 
 
-	public String getPasswordUser() {
-		return passwordUser;
+	public String getPassword() {
+		return password;
 	}
 
 
@@ -140,20 +112,8 @@ public class User implements Serializable{
 
 
 
-	public void setOrders(List<OrderUser> orders) {
-		this.orders = orders;
-	}
-
-
-
-	public void setChats(List<Chat> chats) {
-		this.chats = chats;
-	}
-
-
-
-	public void setNameUser(String nameUser) {
-		this.nameUser = nameUser;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 
@@ -164,15 +124,19 @@ public class User implements Serializable{
 
 
 
-	public void setEmailUser(String emailUser) {
-		this.emailUser = emailUser;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 
 
-	public void setPasswordUser(String passwordUser) {
-		this.passwordUser = passwordUser;
+	public void setPassword(String password) {
+		this.password = password;
 	}
+
+
+
+
 
 
 

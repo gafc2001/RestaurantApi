@@ -78,9 +78,9 @@ public class UserController {
 		}
 		
 		
-		currentUser.setNameUser(user.getNameUser());
-		currentUser.setEmailUser(user.getEmailUser());
-		currentUser.setPasswordUser(user.getPasswordUser());
+		currentUser.setUsername(user.getUsername());
+		currentUser.setEmail(user.getEmail());
+		currentUser.setPassword(user.getPassword());
 		currentUser.setProfileUser(user.getProfileUser());
 		currentUser.setRoles(user.getRoles());
 		_userService.updateUser(currentUser);

@@ -9,11 +9,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "role_user")
+@Table(name = "roles")
 public class RoleUser implements Serializable {
 
 	@Id
@@ -25,8 +26,8 @@ public class RoleUser implements Serializable {
 	private String nameRole;
 	
 	
-	@OneToMany(mappedBy = "roles",fetch = FetchType.EAGER )
-	private List<User> user;
+	@ManyToMany(mappedBy = "roles")
+	private List<User> roles;
 	
 	public RoleUser() {
 		super();
