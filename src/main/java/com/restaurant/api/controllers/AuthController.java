@@ -16,6 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.restaurant.api.models.RoleUser;
 import com.restaurant.api.models.User;
@@ -28,6 +31,10 @@ import com.restaurant.api.repositories.UserRepository;
 import com.restaurant.api.security.JwtUtils;
 import com.restaurant.api.service.UserDetailsImpl;
 
+
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
 
 	@Autowired
@@ -58,13 +65,13 @@ public class AuthController {
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
-
 		return ResponseEntity.ok(new JwtResponse(jwt, 
 												 userDetails.getId(), 
 												 userDetails.getUsername(), 
 												 userDetails.getEmail(), 
 												 roles));
 	}
+	
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -88,26 +95,26 @@ public class AuthController {
 		Set<RoleUser> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			RoleUser userRole = roleRepository.findByNameRole("USER")
+			RoleUser userRole = roleRepository.findByNameRole("ROLE_USER")
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
 				case "admin":
-					RoleUser adminRole = roleRepository.findByNameRole("ADMIN")
+					RoleUser adminRole = roleRepository.findByNameRole("ROLE_ADMIN")
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(adminRole);
 
 					break;
 				case "mod":
-					RoleUser modRole = roleRepository.findByNameRole("MODERATOR")
+					RoleUser modRole = roleRepository.findByNameRole("ROLE_MODERATOR")
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(modRole);
 
 					break;
 				default:
-					RoleUser userRole = roleRepository.findByNameRole("USER")
+					RoleUser userRole = roleRepository.findByNameRole("ROLE_USER")
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(userRole);
 				}

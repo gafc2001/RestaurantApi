@@ -23,11 +23,11 @@ public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 	
 	
-	@Value("${com.restaurant.api.jwtSecret}")
-	private String jwtSecret;
+	//@Value("${restaurant.app.jwtSecret}")
+	private String jwtSecret = "bezKoderSecretKey";
 	
-	@Value("${com.restaurant.api.jwtExpirationMs}")
-	private String jwtExpirationMs;
+	//@Value("${restaurant.app.jwtExpirationMs}")
+	private String jwtExpirationMs = "86400000";
 	
 	public String generateJwtToken(Authentication authentication) {
 
@@ -36,7 +36,7 @@ public class JwtUtils {
 		return Jwts.builder()
 				.setSubject((userPrincipal.getUsername()))
 				.setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+				.setExpiration(new Date((new Date()).getTime() + Long.parseLong(jwtExpirationMs)))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
 	}

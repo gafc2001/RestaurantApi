@@ -43,7 +43,7 @@ public class HibernateConfiguration {
 	}
 	
 	@Autowired
-	@Bean
+	@Bean(name = "transactionManager")
 	public HibernateTransactionManager hibernateTransaction() {
 		HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
 		hibernateTransactionManager.setSessionFactory(sessionFactory().getObject());

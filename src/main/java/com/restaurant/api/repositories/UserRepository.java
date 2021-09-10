@@ -10,9 +10,9 @@ import com.restaurant.api.models.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
 
-	Optional<User> findByUsername(String nameUser);
+	Optional<User> findByUsername(String username);
 
-	Boolean existsByUsername(String nameUser);
+	Boolean existsByUsername(String usermane);
 
 	Boolean existsByEmail(String email);
 }

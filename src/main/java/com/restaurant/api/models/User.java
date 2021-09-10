@@ -30,7 +30,7 @@ public class User implements Serializable{
 	@Column(name = "id_user")
 	private Long idUser;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(	name = "role_user", 
 				joinColumns = @JoinColumn(name = "id_user"), 
 				inverseJoinColumns = @JoinColumn(name = "id_role"))
@@ -49,7 +49,7 @@ public class User implements Serializable{
 	@NotBlank
 	private String email;
 	
-	@Column(name = "password_user")
+	@Column(name = "password")
 	@NotBlank
 	private String password;
 	public User() {
