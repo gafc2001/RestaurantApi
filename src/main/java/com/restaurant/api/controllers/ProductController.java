@@ -137,7 +137,7 @@ public class ProductController {
 		
 		if(product.getImage() != null) {
 			String fileName = product.getImage();
-			Path path = Paths.get(fileName);
+			Path path = Paths.get(PRODUCT_IMAGES_FOLDER + fileName);
 			File file = path.toFile();
 			if(file.exists()) {
 				file.delete();
@@ -178,10 +178,10 @@ public class ProductController {
 		}
 		try {
 			String fileName = product.getImage();
-			Path path = Paths.get(fileName);
+			Path path = Paths.get(PRODUCT_IMAGES_FOLDER + fileName);
 			File file = path.toFile();
 			if(!file.exists()) {
-				return new ResponseEntity<>(new MessageResponse("Image not found"),HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(new MessageResponse("Image does NOT exist"),HttpStatus.NOT_FOUND);
 			}
 			
 			byte[] image = Files.readAllBytes(path);
