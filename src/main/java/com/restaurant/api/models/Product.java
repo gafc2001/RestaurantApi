@@ -43,7 +43,10 @@ public class Product implements Serializable{
 	@Column(name = "desc_product")
 	private String description;
 	
+	@Column(name = "product_image")
+	private String image;
 	
+
 	public Product() {
 		super();
 	}
@@ -118,6 +121,13 @@ public class Product implements Serializable{
 		this.description = description;
 	}
 
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
 	
 	private static final long serialVersionUID = -4546287916631672894L;	
 	
