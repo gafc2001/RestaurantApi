@@ -27,7 +27,7 @@ public class Product implements Serializable{
 	@Column(name = "id_product")
 	private Long idProduct;
 	
-	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_category")
 	private Category category;
 	
