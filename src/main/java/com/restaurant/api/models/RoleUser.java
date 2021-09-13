@@ -27,7 +27,7 @@ public class RoleUser implements Serializable {
 	
 	
 	@ManyToMany(mappedBy = "roles")
-	private List<User> roles;
+	private List<User> users;
 	
 	public RoleUser() {
 		super();

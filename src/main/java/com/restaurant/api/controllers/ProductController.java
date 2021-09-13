@@ -29,7 +29,7 @@ import com.restaurant.api.service.CategoryService;
 import com.restaurant.api.service.ProductService;
 
 @Controller
-@RequestMapping(value = "/products")
+@RequestMapping(value = "/api/products")
 @CrossOrigin
 public class ProductController {
 

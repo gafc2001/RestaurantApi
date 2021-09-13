@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.restaurant.api.models.RoleUser;
+import com.restaurant.api.payload.MessageResponse;
 import com.restaurant.api.service.RoleUserService;
 
-@RequestMapping(value = "/roles")
 @Controller
+@RequestMapping(value = "/api/roles")
 @CrossOrigin
 public class RoleUserController {
 
@@ -34,10 +35,10 @@ public class RoleUserController {
 	@RequestMapping(value = "/", method = RequestMethod.POST ,headers = "Accept=application/json")
 	public ResponseEntity<?> saveRoles(@RequestBody RoleUser roleUser,UriComponentsBuilder uriComponentsBuilder){
 		if(roleUser == null) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(new MessageResponse("Provide a role"), HttpStatus.NO_CONTENT);
 		}
 		if(roleUser.getNameRole().isEmpty() || roleUser.getNameRole() == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new MessageResponse("Provide a role name "),HttpStatus.BAD_REQUEST);
 		}
 		_rolesUserService.saveRoleUser(roleUser);
 		return new ResponseEntity<>(HttpStatus.CREATED);

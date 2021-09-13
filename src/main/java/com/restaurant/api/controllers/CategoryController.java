@@ -18,7 +18,7 @@ import com.restaurant.api.service.CategoryService;
 
 
 @Controller
-@RequestMapping(value = "/categories")
+@RequestMapping(value = "/api/categories")
 @CrossOrigin
 public class CategoryController {
 	

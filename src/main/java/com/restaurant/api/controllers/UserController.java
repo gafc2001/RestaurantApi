@@ -18,7 +18,7 @@ import com.restaurant.api.service.UserService;
 
 @Controller
 @CrossOrigin
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/api/users")
 public class UserController {
 
 	@Autowired
