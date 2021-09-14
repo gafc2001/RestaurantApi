@@ -30,12 +30,9 @@ public class HibernateConfiguration {
 		
 		DriverManagerDataSource driverDataSource = new DriverManagerDataSource();
 		driverDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		/*driverDataSource.setUsername("bd0744e00e65f9");
+		driverDataSource.setUsername("bd0744e00e65f9");
 		driverDataSource.setPassword("3a9de651");
-		driverDataSource.setUrl("jdbc:mysql://us-cdbr-east-04.cleardb.com/heroku_adc647a2419265a");*/
-		driverDataSource.setUsername("root");
-		driverDataSource.setPassword("");
-		driverDataSource.setUrl("jdbc:mysql://localhost:3306/delibakery");
+		driverDataSource.setUrl("jdbc:mysql://us-cdbr-east-04.cleardb.com/heroku_adc647a2419265a");
 		return driverDataSource;
 	}
 	public Properties hibernateProperties() {
