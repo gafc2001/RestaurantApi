@@ -118,7 +118,7 @@ public class ProductController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK); 
 	}
 	
-	public static final String PRODUCT_IMAGES_FOLDER = "images/products";
+	public static final String PRODUCT_IMAGES_FOLDER = "images/products/";
 	
 	@RequestMapping( value = "/{id}/image",method = RequestMethod.POST,headers=("content-type=multipart/form-data"))
 	public ResponseEntity<?> asignImage(@PathVariable(name = "id") Long id,
