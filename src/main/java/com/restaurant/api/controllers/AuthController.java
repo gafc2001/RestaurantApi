@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -91,10 +92,11 @@ public class AuthController {
 							 signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
 
-		Set<String> strRoles = signUpRequest.getRole();
+		Set<String> strRoles = signUpRequest.getRoles();
 		Set<RoleUser> roles = new HashSet<>();
-
-		if (strRoles == null) {
+		
+		
+		if (strRoles.isEmpty()) {
 			RoleUser userRole = roleRepository.findByNameRole("ROLE_USER")
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
@@ -105,7 +107,7 @@ public class AuthController {
 						RoleUser adminRole = roleRepository.findByNameRole("ROLE_ADMIN")
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(adminRole);
-	
+						
 						break;
 					case "mod":
 						RoleUser modRole = roleRepository.findByNameRole("ROLE_MODERATOR")
@@ -118,6 +120,7 @@ public class AuthController {
 								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 						roles.add(userRole);
 				}
+				
 			});
 		}
 
