@@ -21,6 +21,13 @@ public class ProductDaoImpl extends AbstractSession implements ProductDao {
 	}
 
 	@Override
+	public List<Product> getAllProductsByCategory(Long idCategory) {
+		return getSession().createQuery("select p from Product p JOIN p.category c WHERE p.category.idCategory = :id")
+				.setParameter("id", idCategory).list();
+	}
+	
+	
+	@Override
 	public Product findProductById(Long idProduct) {
 		// TODO Auto-generated method stub
 		return getSession().get(Product.class, idProduct);

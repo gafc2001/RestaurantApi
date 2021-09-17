@@ -67,6 +67,21 @@ public class ProductController {
 		}
 	}
 	
+	@RequestMapping(value = "/categories/{id}",method = RequestMethod.GET)
+	public ResponseEntity<?> getAllProductsByCategory(@PathVariable("id") Long idCategory){
+		if(idCategory== null || idCategory<=0) {
+			return new ResponseEntity<>(new MessageResponse("The id product is required"),HttpStatus.BAD_REQUEST); 
+		}
+		Category category = _categoryService.findCategoryById(idCategory);
+		if(category == null) {
+			return new ResponseEntity<>(new MessageResponse("Category NOT FOUND"),HttpStatus.NOT_FOUND);
+		}
+		List<Product> products = _productService.getAllProducsByCategory(idCategory);
+		if(products == null || products.isEmpty()) {
+			return new ResponseEntity<>(new MessageResponse("There are NOT products with this category"),HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(products,HttpStatus.OK);
+	}
 	
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET)
 	public ResponseEntity<?> findProductById(@PathVariable(name = "id") Long idProduct){
@@ -108,6 +123,7 @@ public class ProductController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		
 	}
+	
 	@RequestMapping(value = "/{id}",method = RequestMethod.DELETE, headers = "Accept=application/json")
 	public ResponseEntity<?> deleteProductById(@PathVariable(name = "id") Long idProduct){
 		if(idProduct == null || idProduct <=0) {

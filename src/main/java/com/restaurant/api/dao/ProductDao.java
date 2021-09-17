@@ -8,6 +8,8 @@ public interface ProductDao {
 
 	List<Product> getAllProducts();
 	
+	List<Product> getAllProductsByCategory(Long idCategory);
+	
 	Product findProductById(Long idProduct);
 	
 	void saveProduct(Product product);
@@ -16,6 +18,5 @@ public interface ProductDao {
 	
 	void deleteProductById(Long idProduct);
 	
-	
-	
+ 	
 }

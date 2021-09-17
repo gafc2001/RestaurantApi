@@ -25,6 +25,12 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
+	public List<Product> getAllProducsByCategory(Long idCategory) {
+		// TODO Auto-generated method stub
+		return _productDao.getAllProductsByCategory(idCategory);
+	}
+	
+	@Override
 	public Product findProductById(Long idProduct) {
 		// TODO Auto-generated method stub
 		return _productDao.findProductById(idProduct);
