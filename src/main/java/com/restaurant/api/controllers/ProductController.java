@@ -1,6 +1,9 @@
 package com.restaurant.api.controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,7 +25,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.Blob.BlobSourceOption;
 import com.restaurant.api.models.Category;
+import com.restaurant.api.models.Message;
 import com.restaurant.api.models.Product;
 import com.restaurant.api.payload.MessageResponse;
 import com.restaurant.api.service.CategoryService;
@@ -211,6 +223,43 @@ public class ProductController {
 		}catch (Exception e) {
 			return new ResponseEntity<>(new MessageResponse("A error with image: " + e.getStackTrace().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@RequestMapping(value = "/image/google",method = RequestMethod.POST,headers = ("content-type=multipart/form-data"))
+	public ResponseEntity<?> uploadImageFirebase(@RequestParam("file") MultipartFile mFile){
+		try {
+			byte[] file = mFile.getBytes();
+			BlobId blobId = BlobId.of("restaurant-storage.appspot.com", "image");
+	        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+	        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("assets/credentials.json"));
+	        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+	        storage.create(blobInfo, file);
+		}catch(IOException e) {
+			return new ResponseEntity<>(new MessageResponse("Ups! : " + e.getStackTrace().toString()),HttpStatus.OK);
+		}
+		
+        return new ResponseEntity<>(new MessageResponse("uploaded image"),HttpStatus.OK);
+	}
+	@RequestMapping(value = "image/google",method = RequestMethod.GET)
+	public ResponseEntity<?> getImageFirebase(){
+		Credentials credentials;
+		try {
+			credentials = GoogleCredentials.fromStream(new FileInputStream("assets/credentials.json"));
+			Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+	        Blob blob = storage.get(BlobId.of("restaurant-storage.appspot.com", "image"));
+	        byte[] file = blob.getContent(BlobSourceOption.generationMatch());
+	        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(new MessageResponse(e.getStackTrace().toString()),HttpStatus.NOT_FOUND);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<>(new MessageResponse(e.getStackTrace().toString()),HttpStatus.NO_CONTENT);
+		}
+        
+        
+       
 	}
 	
 	
