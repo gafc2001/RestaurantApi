@@ -1,8 +1,6 @@
 package com.restaurant.api.controllers;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,6 +8,8 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,20 +25,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.google.auth.Credentials;
-import com.google.auth.oauth2.GoogleCredentials;
+import com.google.api.gax.rpc.NotFoundException;
 import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
-import com.google.cloud.storage.Blob.BlobSourceOption;
 import com.restaurant.api.models.Category;
-import com.restaurant.api.models.Message;
 import com.restaurant.api.models.Product;
 import com.restaurant.api.payload.MessageResponse;
 import com.restaurant.api.service.CategoryService;
+import com.restaurant.api.service.FirebaseService;
 import com.restaurant.api.service.ProductService;
+import com.restaurant.api.utils.ImageResizer;
 
 @Controller
 @RequestMapping(value = "/api/products")
@@ -49,6 +44,11 @@ public class ProductController {
 	ProductService _productService;
 	@Autowired
 	CategoryService _categoryService;
+	
+	@Autowired
+	FirebaseService firebaseService;
+	
+	
 	
 	@RequestMapping(value = "",method = RequestMethod.GET)
 	public ResponseEntity<?> getAllProducts(){
@@ -169,11 +169,18 @@ public class ProductController {
 		
 		if(product.getImage() != null) {
 			String fileName = product.getImage();
-			Path path = Paths.get(PRODUCT_IMAGES_FOLDER + fileName);
-			File file = path.toFile();
-			if(file.exists()) {
-				file.delete();
+			Blob blob;
+			try {
+				blob = firebaseService.getFile(PRODUCT_IMAGES_FOLDER + fileName);
+				if(blob != null) {
+					if(blob.exists()) {
+						blob.delete();
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+			
 		}
 		
 		try {
@@ -184,11 +191,12 @@ public class ProductController {
 			String fileName = String.format("%d-product-image-%s.%s", id,dateName,multipartFile.getContentType().split("/")[1]);
 			product.setImage(fileName);
 			
-			Path path = Paths.get(PRODUCT_IMAGES_FOLDER + fileName);
 			byte[] image = multipartFile.getBytes();
-			Files.write(path, image);
+			byte[] imageResized = ImageResizer.resize(image, 400, 400);
+			Blob blob = firebaseService.saveFile(imageResized,PRODUCT_IMAGES_FOLDER + fileName, "jpg");
+			byte[] createdImage = blob.getContent();
 			_productService.updateProduct(product);
-			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(createdImage);
 			
 		}catch (Exception e) {
 			return new ResponseEntity<>(new MessageResponse("A error uploading the image: " + e.getStackTrace().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
@@ -210,56 +218,22 @@ public class ProductController {
 		}
 		try {
 			String fileName = product.getImage();
-			Path path = Paths.get(PRODUCT_IMAGES_FOLDER + fileName);
-			File file = path.toFile();
-			if(!file.exists()) {
-				return new ResponseEntity<>(new MessageResponse("Image does NOT exist"),HttpStatus.NOT_FOUND);
+			Blob blob = firebaseService.getFile(PRODUCT_IMAGES_FOLDER + fileName);
+			blob = firebaseService.getFile(PRODUCT_IMAGES_FOLDER + fileName);
+			if(!blob.exists()) {
+				throw new NotFoundException("Image not found", null, null, false);
 			}
-			
-			byte[] image = Files.readAllBytes(path);
+			byte[] image = blob.getContent();
 			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
 			
 			
-		}catch (Exception e) {
-			return new ResponseEntity<>(new MessageResponse("A error with image: " + e.getStackTrace().toString()),HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
-	@RequestMapping(value = "/image/google",method = RequestMethod.POST,headers = ("content-type=multipart/form-data"))
-	public ResponseEntity<?> uploadImageFirebase(@RequestParam("file") MultipartFile mFile){
-		try {
-			byte[] file = mFile.getBytes();
-			BlobId blobId = BlobId.of("restaurant-storage.appspot.com", "image");
-	        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-	        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("assets/credentials.json"));
-	        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-	        storage.create(blobInfo, file);
-		}catch(IOException e) {
-			return new ResponseEntity<>(new MessageResponse("Ups! : " + e.getStackTrace().toString()),HttpStatus.OK);
-		}
-		
-        return new ResponseEntity<>(new MessageResponse("uploaded image"),HttpStatus.OK);
-	}
-	@RequestMapping(value = "image/google",method = RequestMethod.GET)
-	public ResponseEntity<?> getImageFirebase(){
-		Credentials credentials;
-		try {
-			credentials = GoogleCredentials.fromStream(new FileInputStream("assets/credentials.json"));
-			Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-	        Blob blob = storage.get(BlobId.of("restaurant-storage.appspot.com", "image"));
-	        byte[] file = blob.getContent(BlobSourceOption.generationMatch());
-	        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file);
-		} catch (FileNotFoundException e) {
+		}catch (NotFoundException e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(new MessageResponse(e.getStackTrace().toString()),HttpStatus.NOT_FOUND);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return new ResponseEntity<>(new MessageResponse(e.getStackTrace().toString()),HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(new MessageResponse("Error: " + e.getMessage()),HttpStatus.NOT_FOUND);
 		}
-        
-        
-       
+		catch (Exception e) {
+			return new ResponseEntity<>(new MessageResponse("A error with image: " + e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	
