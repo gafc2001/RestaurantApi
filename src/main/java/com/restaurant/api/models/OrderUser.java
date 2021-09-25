@@ -34,7 +34,7 @@ public class OrderUser implements Serializable {
 	private Payment payment;
 	
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "orderDetail")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "orderUser")
 	private List<OrderDetail> orderDetails;
 	
 	@Column(name = "status_order")

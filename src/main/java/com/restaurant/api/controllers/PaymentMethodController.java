@@ -1,6 +1,7 @@
 package com.restaurant.api.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,8 +33,8 @@ public class PaymentMethodController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public PaymentMethod getById(@PathVariable(name = "id") Long id) {
-		return paymentMethodRepository.getById(id);
+	public Optional<PaymentMethod> getById(@PathVariable(name = "id") Long id) {
+		return paymentMethodRepository.findById(id);
 	}
 	
 	@PostMapping
@@ -45,7 +46,7 @@ public class PaymentMethodController {
 	@PutMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void update(@PathVariable(name = "id") Long id, @RequestBody PaymentMethod paymentMethod) {
-		PaymentMethod currentPaymentMethod = paymentMethodRepository.getById(id);
+		PaymentMethod currentPaymentMethod = paymentMethodRepository.findById(id).get();
 		currentPaymentMethod.setNamePaymentMethod(paymentMethod.getNamePaymentMethod());
 		paymentMethodRepository.save(currentPaymentMethod);
 	}
