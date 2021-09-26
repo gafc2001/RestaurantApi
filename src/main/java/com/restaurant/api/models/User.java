@@ -21,6 +21,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "user")
 public class User implements Serializable{
@@ -51,6 +53,7 @@ public class User implements Serializable{
 	
 	@Column(name = "password")
 	@NotBlank
+	@JsonIgnore
 	private String password;
 	public User() {
 		super();

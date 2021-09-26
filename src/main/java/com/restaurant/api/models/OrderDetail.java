@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,8 @@ public class OrderDetail implements Serializable{
 	@Setter
 	private Long idOrderDetail;
 	
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+	@JoinColumn(name = "id_product")
 	@Getter
 	@Setter
 	@NonNull
@@ -42,6 +45,7 @@ public class OrderDetail implements Serializable{
 	@Getter
 	@Setter
 	@NonNull
+	@JsonIgnore
 	private OrderUser orderUser;
 	
 	@Column(name = "quantity")
@@ -53,7 +57,7 @@ public class OrderDetail implements Serializable{
 		super();
 	}
 	
-	
+
 	private static final long serialVersionUID = -5638346545812377702L;
 	
 }

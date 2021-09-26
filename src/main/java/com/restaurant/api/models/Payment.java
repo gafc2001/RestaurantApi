@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "payment")
 public class Payment implements Serializable{
@@ -24,11 +26,13 @@ public class Payment implements Serializable{
 	@Column(name = "id_payment")
 	private Long idPayment;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_order")
+	@JsonIgnore
 	private OrderUser orderUser;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "payment_method")
+	@JoinColumn(name = "id_payment_method")
 	private PaymentMethod paymentMethod;
 	
 	@Column(name = "status_payment")

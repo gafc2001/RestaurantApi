@@ -2,6 +2,7 @@ package com.restaurant.api.models;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,8 +17,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.Getter;
+import lombok.Setter;
+
 
 @Entity
+@Getter
+@Setter
 @Table(name = "order_user")
 public class OrderUser implements Serializable {	
 
@@ -30,12 +38,14 @@ public class OrderUser implements Serializable {
 	@JoinColumn(name = "id_user")
 	private User user;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private Payment payment;
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "orderUser")
+	@JsonManagedReference
+	private Set<Payment> payment;
 	
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "orderUser")
-	private List<OrderDetail> orderDetails;
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "orderUser")
+	@JsonManagedReference
+	private Set<OrderDetail> orderDetails;
 	
 	@Column(name = "status_order")
 	private String statusOrder;
@@ -54,36 +64,6 @@ public class OrderUser implements Serializable {
 		this.user = user;
 		this.statusOrder = statusOrder;
 		this.description = description;
-		this.totalPrice = totalPrice;
-	}
-	public Long getIdOrder() {
-		return idOrder;
-	}
-	public User getUser() {
-		return user;
-	}
-	public String getStatusOrder() {
-		return statusOrder;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public long getTotalPrice() {
-		return totalPrice;
-	}
-	public void setIdOrder(Long idOrder) {
-		this.idOrder = idOrder;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public void setStatusOrder(String statusOrder) {
-		this.statusOrder = statusOrder;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public void setTotalPrice(long totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 	
