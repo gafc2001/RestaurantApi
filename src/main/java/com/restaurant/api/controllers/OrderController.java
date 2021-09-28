@@ -63,6 +63,12 @@ public class OrderController {
 		ids.add(id);
 		return orderRepository.findAllById(ids);
 	}
+	@GetMapping(value = "/users/{id}")
+	public List<OrderUser> getOrderByUserId(@PathVariable("id")Long id){
+		List<OrderUser> ordersUser= orderRepository.getOrdersByUserId(id);
+		return ordersUser;
+	}
+	
 	@PostMapping
 	public OrderUser create(@RequestBody OrderRequest orderRequest) {
 		User user = userRepository.findById(orderRequest.getIduser()).get();
