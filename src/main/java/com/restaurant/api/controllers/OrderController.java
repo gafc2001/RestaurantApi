@@ -89,7 +89,7 @@ public class OrderController {
 		return createdOrder;
 	}
 
-	@PutMapping("/{id}/status")
+	@PatchMapping("/{id}/status")
 	public OrderUser updateStatus(@PathVariable(value = "id")Long id,@RequestBody String status){
 		OrderUser orderUser = orderRepository.findById(id).get();
 		orderUser.setStatusOrder(status);
@@ -117,14 +117,13 @@ public class OrderController {
 	}
 
 	@GetMapping("/orderReport")
-	public List<OrderReport> getOrderReport(@RequestParam(value="days", required = false)Integer days){
+	public List<Object> getOrderReport(@RequestParam(value="days", required = false)Integer days){
 		Calendar today = Calendar.getInstance();
 		Calendar range = Calendar.getInstance();
 		range.add(Calendar.DATE,-1);
 		if(days !=null){
 			range.add(Calendar.DATE,-days);
 		}
-
 		return orderRepository.getOrderReport(range.getTime(),today.getTime());
 	}
 

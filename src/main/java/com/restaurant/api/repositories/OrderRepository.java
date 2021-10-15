@@ -21,11 +21,10 @@ public interface OrderRepository extends JpaRepository<OrderUser, Long>{
 			"ORDER BY total desc")
 	List<List<Object>> getMostOrdered(Date range,Date current);
 
-	/*@Query("SELECT new com.restaurant.api.payload.response.OrderReport(o.user,o.description,o.totalPrice,o.statusOrder)" +
-			" FROM OrderUser o WHERE o.createdAt >= ?1 AND o.createdAt<=?2")*/
+
 	@Query("SELECT o.user,o.description,o.totalPrice,o.statusOrder,o.createdAt" +
 				  " FROM OrderUser o WHERE o.createdAt >= ?1 AND o.createdAt<=?2")
-	List<OrderReport> getOrderReport(Date range, Date current);
+	List<Object> getOrderReport(Date range, Date current);
 
 	@Query("SELECT SUM(o.totalPrice) FROM OrderUser o WHERE o.createdAt >= ?1 AND o.createdAt<=?2")
 	public Long getTotalSummaryReport(Date range,Date current);
