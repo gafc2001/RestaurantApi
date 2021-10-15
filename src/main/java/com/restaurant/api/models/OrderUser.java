@@ -1,10 +1,9 @@
 package com.restaurant.api.models;
 
 import java.io.Serializable;
-import java.util.List;
+import java.sql.Timestamp;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,13 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 
 @Entity
@@ -55,6 +55,15 @@ public class OrderUser implements Serializable {
 	
 	@Column(name = "total_order_price")
 	private long totalPrice;
+
+	@Column(name = "created_at")
+	@CreationTimestamp
+	private Timestamp createdAt;
+
+	@Column(name = "updated_at")
+	@UpdateTimestamp
+	private Timestamp updateAt;
+
 	
 	public OrderUser() {
 		super();

@@ -1,20 +1,11 @@
 package com.restaurant.api.controllers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.restaurant.api.payload.response.MostOrdered;
+import com.restaurant.api.payload.response.OrderReport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.restaurant.api.dao.ProductDao;
+
 import com.restaurant.api.models.OrderDetail;
 import com.restaurant.api.models.OrderUser;
 import com.restaurant.api.models.Payment;
@@ -30,9 +21,12 @@ import com.restaurant.api.repositories.PaymentRepository;
 import com.restaurant.api.repositories.UserRepository;
 import com.restaurant.api.service.ProductService;
 
+
+import java.util.*;
+
 @RestController
 @CrossOrigin
-@RequestMapping(value = "api/order")
+@RequestMapping(value = "/api/order")
 public class OrderController {
 	
 	@Autowired
@@ -59,7 +53,7 @@ public class OrderController {
 	}
 	@GetMapping(value = "/{id}")
 	public List<OrderUser> getAllById(@PathVariable("id")Long id){
-		List<Long> ids = new ArrayList<Long>();
+		List<Long> ids = new ArrayList<>();
 		ids.add(id);
 		return orderRepository.findAllById(ids);
 	}
@@ -77,7 +71,7 @@ public class OrderController {
 		String status = orderRequest.getStatus();
 		Long total = orderRequest.getSubtotal();
 		List<OrderDetailRequest> items = orderRequest.getOrders();
-		Set<OrderDetail> orderDetails = new HashSet<OrderDetail>();
+		Set<OrderDetail> orderDetails = new HashSet<>();
 		OrderUser order = new OrderUser(user,status,"desc",total);
 		OrderUser createdOrder = orderRepository.save(order);
 		for (OrderDetailRequest orderDetailRequest : items) {
@@ -94,5 +88,74 @@ public class OrderController {
 		createdOrder.setPayment(payList);
 		return createdOrder;
 	}
-	
+
+	@PutMapping("/{id}/status")
+	public OrderUser updateStatus(@PathVariable(value = "id")Long id,@RequestBody String status){
+		OrderUser orderUser = orderRepository.findById(id).get();
+		orderUser.setStatusOrder(status);
+		orderRepository.save(orderUser);
+		return orderUser;
+
+	}
+
+	@GetMapping("/mostOrdered")
+	public List<MostOrdered> getOrdersPerDay(@RequestParam(value="days", required = false)Integer days){
+		Calendar today = Calendar.getInstance();
+		today.add(Calendar.DATE, 1);;
+		Calendar range = Calendar.getInstance();
+		if(days !=null){
+			range.add(Calendar.DATE,-days);
+		}
+		System.out.println("Range " +range.getTime());
+		System.out.println("Tomorrow " + today.getTime());
+		List<List<Object>> result =orderRepository.getMostOrdered(range.getTime(),today.getTime());
+		List<MostOrdered> response = new ArrayList<>();
+		result.forEach(e ->{
+			response.add( new MostOrdered((Product)e.get(0),Long.parseLong(e.get(1).toString())));
+		});
+		return response;
+	}
+
+	@GetMapping("/orderReport")
+	public List<OrderReport> getOrderReport(@RequestParam(value="days", required = false)Integer days){
+		Calendar today = Calendar.getInstance();
+		Calendar range = Calendar.getInstance();
+		range.add(Calendar.DATE,-1);
+		if(days !=null){
+			range.add(Calendar.DATE,-days);
+		}
+
+		return orderRepository.getOrderReport(range.getTime(),today.getTime());
+	}
+
+	@GetMapping("/total")
+	public Long getTotalOrder(@RequestParam(value = "type",required = false) String type,
+							  @RequestParam(value = "range",required = false) Integer range ){
+		Calendar last =Calendar.getInstance();
+		Calendar today = Calendar.getInstance();
+		last.add(Calendar.DATE,-1);
+		if(range != null && !type.equals(null)){
+			switch (type){
+				case "DAY":
+					last.add(Calendar.DATE, -range);
+					break;
+				case "MONTH":
+					last.add(Calendar.MONTH, -range);
+					break;
+				case "YEAR":
+					last.add(Calendar.YEAR	, -range);
+					break;
+			}
+		}
+
+		Long lastTotalOrder =orderRepository.getTotalSummaryReport(last.getTime(),today.getTime());
+		//Long currentTotalOrder = orderRepository.getTotalSummaryReport(now.getTime());
+		System.out.println(today.getTime());
+		System.out.println(last.getTime());
+		return lastTotalOrder;
+	}
+
+
+
+
 }
