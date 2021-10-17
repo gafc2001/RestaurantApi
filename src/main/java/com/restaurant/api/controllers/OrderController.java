@@ -95,7 +95,6 @@ public class OrderController {
 		orderUser.setStatusOrder(status);
 		orderRepository.save(orderUser);
 		return orderUser;
-
 	}
 
 	@GetMapping("/mostOrdered")
@@ -117,14 +116,24 @@ public class OrderController {
 	}
 
 	@GetMapping("/orderReport")
-	public List<Object> getOrderReport(@RequestParam(value="days", required = false)Integer days){
+	public List<OrderReport> getOrderReport(@RequestParam(value="days", required = false)Integer days){
 		Calendar today = Calendar.getInstance();
 		Calendar range = Calendar.getInstance();
 		range.add(Calendar.DATE,-1);
 		if(days !=null){
 			range.add(Calendar.DATE,-days);
 		}
-		return orderRepository.getOrderReport(range.getTime(),today.getTime());
+		List<OrderReport> orderReports = new ArrayList<>();
+		List<List<Object>> result = orderRepository.getOrderReport(range.getTime(),today.getTime());
+		result.forEach(e -> {
+			orderReports.add(new OrderReport(
+					(User)e.get(0),
+					e.get(1).toString(),
+					Long.parseLong(e.get(2).toString()),
+					e.get(3).toString()
+			));
+		});
+		return orderReports;
 	}
 
 	@GetMapping("/total")

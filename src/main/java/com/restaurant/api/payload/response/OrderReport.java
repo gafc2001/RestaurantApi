@@ -14,10 +14,8 @@ public class OrderReport {
     @NonNull
     private String description;
     @NonNull
-    private long total;
+    private Long total;
     @NonNull
     private String status;
-    @NonNull
-    private Timestamp createdAt;
 
 }

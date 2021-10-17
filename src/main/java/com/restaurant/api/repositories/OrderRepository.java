@@ -24,7 +24,7 @@ public interface OrderRepository extends JpaRepository<OrderUser, Long>{
 
 	@Query("SELECT o.user,o.description,o.totalPrice,o.statusOrder,o.createdAt" +
 				  " FROM OrderUser o WHERE o.createdAt >= ?1 AND o.createdAt<=?2")
-	List<Object> getOrderReport(Date range, Date current);
+	List<List<Object>> getOrderReport(Date range, Date current);
 
 	@Query("SELECT SUM(o.totalPrice) FROM OrderUser o WHERE o.createdAt >= ?1 AND o.createdAt<=?2")
 	public Long getTotalSummaryReport(Date range,Date current);
