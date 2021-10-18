@@ -1,10 +1,16 @@
 package com.restaurant.api.payload.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Data
-public class UpdateStatus {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UpdateStatus implements Serializable {
     @NonNull
     private String status;
 
