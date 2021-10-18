@@ -92,7 +92,7 @@ public class OrderController {
 	@PatchMapping("/{id}/status")
 	public OrderUser updateStatus(@PathVariable(value = "id")Long id,@RequestBody String status){
 		OrderUser orderUser = orderRepository.findById(id).get();
-		orderUser.setStatusOrder(status);
+		orderUser.setStatusOrder(status.toString());
 		orderRepository.save(orderUser);
 		return orderUser;
 	}
