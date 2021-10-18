@@ -1,5 +1,6 @@
 package com.restaurant.api.controllers;
 
+import com.restaurant.api.payload.request.UpdateStatus;
 import com.restaurant.api.payload.response.MostOrdered;
 import com.restaurant.api.payload.response.OrderReport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,9 +91,9 @@ public class OrderController {
 	}
 
 	@PatchMapping("/{id}/status")
-	public OrderUser updateStatus(@PathVariable(value = "id")Long id,@RequestBody String status){
+	public OrderUser updateStatus(@PathVariable(value = "id")Long id, @RequestBody UpdateStatus status){
 		OrderUser orderUser = orderRepository.findById(id).get();
-		orderUser.setStatusOrder(status.toString());
+		orderUser.setStatusOrder(status.getStatus());
 		orderRepository.save(orderUser);
 		return orderUser;
 	}
