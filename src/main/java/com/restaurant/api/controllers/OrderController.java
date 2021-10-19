@@ -3,6 +3,8 @@ package com.restaurant.api.controllers;
 import com.restaurant.api.payload.request.UpdateStatus;
 import com.restaurant.api.payload.response.MostOrdered;
 import com.restaurant.api.payload.response.OrderReport;
+import com.restaurant.api.payload.response.SummaryReport;
+import com.restaurant.api.utils.SummaryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -137,32 +139,20 @@ public class OrderController {
 		return orderReports;
 	}
 
-	@GetMapping("/total")
-	public Long getTotalOrder(@RequestParam(value = "type",required = false) String type,
+	@GetMapping("/summary")
+	public SummaryReport getTotalOrder(@RequestParam(value = "type",required = false) String type,
 							  @RequestParam(value = "range",required = false) Integer range ){
-		Calendar last =Calendar.getInstance();
-		Calendar today = Calendar.getInstance();
-		last.add(Calendar.DATE,-1);
-		if(range != null && !type.equals(null)){
-			switch (type){
-				case "DAY":
-					last.add(Calendar.DATE, -range);
-					break;
-				case "MONTH":
-					last.add(Calendar.MONTH, -range);
-					break;
-				case "YEAR":
-					last.add(Calendar.YEAR	, -range);
-					break;
-			}
-		}
+		Long currentTotalOrder =orderRepository.getTotalSummaryReport(
+				SummaryUtils.getDates("DAY",true).get(1),
+				SummaryUtils.getDates("DAY",true).get(0));
+		Long lastTotalOrder = orderRepository.getTotalSummaryReport(
+				SummaryUtils.getDates("DAY",false).get(1),
+				SummaryUtils.getDates("DAY",false).get(0));
 
-		Long lastTotalOrder =orderRepository.getTotalSummaryReport(last.getTime(),today.getTime());
-		//Long currentTotalOrder = orderRepository.getTotalSummaryReport(now.getTime());
-		System.out.println(today.getTime());
-		System.out.println(last.getTime());
-		return lastTotalOrder;
+		SummaryReport summary = new SummaryReport(currentTotalOrder,lastTotalOrder,"total");
+		return summary;
 	}
+
 
 
 
