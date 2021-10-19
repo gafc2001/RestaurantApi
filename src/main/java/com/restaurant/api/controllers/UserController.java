@@ -33,10 +33,7 @@ public class UserController{
 		return userRepository.save(user);
 	}
 
-	@GetMapping(value = "/summary")
-	public SummaryReport getTotalUsers(){
-		return null;
-	}
+	
 	
 
 	

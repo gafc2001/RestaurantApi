@@ -18,8 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
 	Boolean existsByEmail(String email);
 
-	@Query("SELECT COUNT(")
-	Long countUsers(Date range, Date current);
+
 
 
 }

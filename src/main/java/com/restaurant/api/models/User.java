@@ -1,6 +1,7 @@
 package com.restaurant.api.models;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "user")
@@ -55,6 +58,15 @@ public class User implements Serializable{
 	@NotBlank
 	@JsonIgnore
 	private String password;
+
+	@CreationTimestamp
+	@Column(name = "created_at")
+	private Timestamp createdAt;
+
+	@UpdateTimestamp
+	@Column(name = "updated_at")
+	private Timestamp updatedAt;
+
 	public User() {
 		super();
 	}
