@@ -15,48 +15,35 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 @Entity
 @Table(name = "order_detail")
-
 @RequiredArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class OrderDetail implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_order_detail")
-	@Getter
-	@Setter
 	private Long idOrderDetail;
 	
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
 	@JoinColumn(name = "id_product")
-	@Getter
-	@Setter
 	@NonNull
 	private Product product;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_order")
-	@Getter
-	@Setter
 	@NonNull
 	@JsonIgnore
 	private OrderUser orderUser;
 	
 	@Column(name = "quantity")
-	@Getter
-	@Setter
+
 	@NonNull
 	private Integer quantity;
-	public OrderDetail() {
-		super();
-	}
-	
 
 	private static final long serialVersionUID = -5638346545812377702L;
 	

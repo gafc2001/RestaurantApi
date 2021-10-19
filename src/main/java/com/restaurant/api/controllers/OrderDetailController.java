@@ -1,14 +1,13 @@
 package com.restaurant.api.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.restaurant.api.payload.response.SummaryReport;
+import com.restaurant.api.utils.SummaryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.restaurant.api.models.OrderDetail;
 import com.restaurant.api.repositories.OrderDetailRepository;
@@ -29,6 +28,21 @@ public class OrderDetailController {
 		ids.add(id);
 		
 		return orderDetailRepository.findAllById(ids);
+	}
+	@GetMapping(value = "/summary")
+	@ResponseBody
+	public SummaryReport getReport(){
+
+		Long quantity= orderDetailRepository.quantity(
+				SummaryUtils.getDates("DAY",true).get(1),
+				SummaryUtils.getDates("DAY",true).get(0)
+		);
+		Long lastQuantity= orderDetailRepository.quantity(
+				SummaryUtils.getDates("DAY",false).get(1),
+				SummaryUtils.getDates("DAY",false).get(0)
+		);
+		SummaryReport summary = new SummaryReport(quantity,lastQuantity,"dishes");
+		return summary;
 	}
 	
 }

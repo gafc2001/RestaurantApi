@@ -2,29 +2,29 @@ package com.restaurant.api.controllers;
 
 import java.util.List;
 
+import com.restaurant.api.payload.response.Chart;
+import com.restaurant.api.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.restaurant.api.models.Category;
 import com.restaurant.api.service.CategoryService;
 
 
-@Controller
+@RestController
 @RequestMapping(value = "/api/categories")
 @CrossOrigin
 public class CategoryController {
 	
 	@Autowired
 	CategoryService _categoryService;
-	
+
+	@Autowired
+	CategoryRepository categoryRepository;
+
 	@RequestMapping(value = "",method = RequestMethod.GET)
 	public ResponseEntity<?> getAllCategories(){
 		
@@ -100,4 +100,9 @@ public class CategoryController {
 		_categoryService.deleteCategoryById(idCategory);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK); 
 	}
+	@GetMapping(value = "/chart")
+	public List<Chart> getCategoryReport(){
+		return categoryRepository.countCategory();
+	}
+
 }
