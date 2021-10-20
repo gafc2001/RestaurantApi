@@ -21,7 +21,6 @@ public class SummaryReport {
         this.current = current;
         this.last = last;
         this.type = type;
-        System.out.println(this.current + " - " + this.last );
         this.percentage = ((this.current - this.last) / (double)Math.abs(this.last)) * 100;
         this.status = (this.current-this.last)>0?"positive":"negative";
     }

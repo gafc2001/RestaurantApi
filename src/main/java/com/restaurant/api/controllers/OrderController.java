@@ -148,7 +148,8 @@ public class OrderController {
 		Long lastTotalOrder = orderRepository.getTotalSummaryReport(
 				SummaryUtils.getDates("DAY",false).get(1),
 				SummaryUtils.getDates("DAY",false).get(0));
-		System.out.println(currentTotalOrder + " - " + lastTotalOrder );
+		System.out.println("Current total: "+currentTotalOrder);
+		System.out.println("Last total:"+ lastTotalOrder ) ;
 		SummaryReport summary = new SummaryReport(currentTotalOrder,lastTotalOrder,"total");
 		return summary;
 	}
