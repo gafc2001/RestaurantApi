@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class ImageResizer {
+public class ImageTools {
 
 	public static byte[] resize(byte[] image,int width, int height) throws IOException{
 		ByteArrayInputStream bais = new ByteArrayInputStream(image);

@@ -1,15 +1,7 @@
 package com.restaurant.api.controllers;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
-import javax.websocket.server.PathParam;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +25,7 @@ import com.restaurant.api.payload.MessageResponse;
 import com.restaurant.api.service.CategoryService;
 import com.restaurant.api.service.FirebaseService;
 import com.restaurant.api.service.ProductService;
-import com.restaurant.api.utils.ImageResizer;
+import com.restaurant.api.utils.ImageTools;
 
 @Controller
 @RequestMapping(value = "/api/products")
@@ -169,30 +161,14 @@ public class ProductController {
 		
 		if(product.getImage() != null) {
 			String fileName = product.getImage();
-			Blob blob;
-			try {
-				blob = firebaseService.getFile(PRODUCT_IMAGES_FOLDER + fileName);
-				if(blob != null) {
-					if(blob.exists()) {
-						blob.delete();
-					}
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+			firebaseService.checkIfExists(PRODUCT_IMAGES_FOLDER + fileName);
 		}
 		
 		try {
-			Date date = new Date();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
-			String dateName = dateFormat.format(date);
 			
-			String fileName = String.format("%d-product-image-%s.%s", id,dateName,multipartFile.getContentType().split("/")[1]);
+			String fileName = firebaseService.generateFileName(id,"product",multipartFile.getContentType().split("/")[1]);
 			product.setImage(fileName);
-			
-			byte[] image = multipartFile.getBytes();
-			byte[] imageResized = ImageResizer.resize(image, 400, 400);
+			byte[] imageResized = ImageTools.resize(multipartFile.getBytes(), 400, 400);
 			Blob blob = firebaseService.saveFile(imageResized,PRODUCT_IMAGES_FOLDER + fileName, "jpg");
 			byte[] createdImage = blob.getContent();
 			_productService.updateProduct(product);
@@ -219,7 +195,6 @@ public class ProductController {
 		try {
 			String fileName = product.getImage();
 			Blob blob = firebaseService.getFile(PRODUCT_IMAGES_FOLDER + fileName);
-			blob = firebaseService.getFile(PRODUCT_IMAGES_FOLDER + fileName);
 			if(!blob.exists()) {
 				throw new NotFoundException("Image not found", null, null, false);
 			}
@@ -235,6 +210,7 @@ public class ProductController {
 			return new ResponseEntity<>(new MessageResponse("A error with image: " + e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 	
 	
 }

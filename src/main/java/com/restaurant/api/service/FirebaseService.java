@@ -12,4 +12,8 @@ public interface FirebaseService {
 	Blob getFile(String fileName) throws FileNotFoundException, IOException;
 	
 	void deleteFile(String fileName,String contentType);
+
+	void checkIfExists(String fileName);
+
+	String generateFileName(Long id, String type, String contentType);
 }

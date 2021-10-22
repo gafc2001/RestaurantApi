@@ -3,6 +3,8 @@ package com.restaurant.api.service;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,5 +52,29 @@ public class FirebaseServiceImpl implements FirebaseService{
 		
 	}
 
-	
+	@Override
+	public void checkIfExists(String fileName) {
+		if(fileName != null) {
+			Blob blob;
+			try {
+				blob = this.getFile(fileName);
+				if(blob != null) {
+					if(blob.exists()) {
+						blob.delete();
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public String generateFileName(Long id, String type, String contentType) {
+		Date date = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
+		String dateName = dateFormat.format(date);
+		String fileName = String.format("%d-product-image-%s.%s", id,dateName,contentType);
+		return fileName;
+	}
 }
