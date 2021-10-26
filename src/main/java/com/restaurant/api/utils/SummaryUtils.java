@@ -40,4 +40,10 @@ public class SummaryUtils {
         }
         return date;
     }
+    public static Long checkIfIsNull(Long number){
+        if(number == null){
+            return 0l;
+        }
+        return number;
+    }
 }

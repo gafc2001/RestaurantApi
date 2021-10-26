@@ -41,7 +41,11 @@ public class OrderDetailController {
 				SummaryUtils.getDates("DAY",false).get(1),
 				SummaryUtils.getDates("DAY",false).get(0)
 		);
-		SummaryReport summary = new SummaryReport(quantity,lastQuantity,"dishes");
+		SummaryReport summary = new SummaryReport(
+				SummaryUtils.checkIfIsNull(quantity),
+				SummaryUtils.checkIfIsNull(lastQuantity),
+				"dishes"
+		);
 		return summary;
 	}
 	

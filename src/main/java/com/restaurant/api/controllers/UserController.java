@@ -92,10 +92,11 @@ public class UserController{
 	@ResponseBody
 	public SummaryReport getTotalUser(){
 		List<Date> dates = SummaryUtils.getDates("DAY",true);
-		Long countUsers = userRepository.count();
-		Long countNewUsers = userRepository.countNewUsers(dates.get(1));
-		SummaryReport summary = new SummaryReport(countUsers,countUsers-countNewUsers,"users");
+		Long countUsers = SummaryUtils.checkIfIsNull(userRepository.count());
+		Long countNewUsers = SummaryUtils.checkIfIsNull(userRepository.countNewUsers(dates.get(1)));
 
+		SummaryReport summary = new SummaryReport(countUsers,countUsers-countNewUsers,"users");
+		
 		return summary;
 	}
 
