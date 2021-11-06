@@ -10,16 +10,34 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin
-@RestController
-public class ChatController {
+public class ChatController extends TextWebSocketHandler {
 
-    @Autowired
-    private SimpMessagingTemplate messageTemplate;
+    private final List<WebSocketSession> webSocketSessions = new ArrayList<>();
 
-    @MessageMapping("/chat")
-    public void sendMessage(@Payload ChatMessage chatMessage){
-        messageTemplate.convertAndSend("/queue/messages",chatMessage);
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        webSocketSessions.add(session);
+    }
+
+    @Override
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        for(WebSocketSession webSocketSession : webSocketSessions){
+            webSocketSession.sendMessage(message);
+
+        }
+    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        webSocketSessions.remove(session);
     }
 }
