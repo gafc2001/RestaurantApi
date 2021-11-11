@@ -166,7 +166,7 @@ public class ProductController {
 		
 		try {
 			
-			String fileName = firebaseService.generateFileName(id,"product",multipartFile.getContentType().split("/")[1]);
+			String fileName = firebaseService.generateFileName(id,"product-image",multipartFile.getContentType().split("/")[1]);
 			product.setImage(fileName);
 			byte[] imageResized = ImageTools.resize(multipartFile.getBytes(), 400, 400);
 			Blob blob = firebaseService.saveFile(imageResized,PRODUCT_IMAGES_FOLDER + fileName, "jpg");

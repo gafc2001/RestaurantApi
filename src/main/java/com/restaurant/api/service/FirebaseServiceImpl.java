@@ -74,7 +74,7 @@ public class FirebaseServiceImpl implements FirebaseService{
 		Date date = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss");
 		String dateName = dateFormat.format(date);
-		String fileName = String.format("%d-product-image-%s.%s", id,dateName,contentType);
+		String fileName = String.format("%d-%s-%s.%s", id,type,dateName,contentType);
 		return fileName;
 	}
 }

@@ -13,8 +13,8 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
     private final static String CHAT_ENDPOINT = "/chat";
 
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-        webSocketHandlerRegistry.addHandler(getChatWebSocketHandler(), CHAT_ENDPOINT)
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler(getChatWebSocketHandler(), CHAT_ENDPOINT)
                 .setAllowedOrigins("*");
     }
 
