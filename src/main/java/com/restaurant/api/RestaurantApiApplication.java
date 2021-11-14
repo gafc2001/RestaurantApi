@@ -1,11 +1,11 @@
 package com.restaurant.api;
 
-import com.restaurant.api.utils.SummaryUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.core.SpringVersion;
+
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
@@ -20,12 +20,7 @@ public class RestaurantApiApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub1
 	 	System.out.println("version: " + SpringVersion.getVersion());
-		System.out.println(SummaryUtils.getDates("DAY",true).get(1));
-		System.out.println(SummaryUtils.getDates("DAY",true).get(0));
-		System.out.println(SummaryUtils.getDates("DAY",false).get(1));
-		System.out.println(SummaryUtils.getDates("DAY",false).get(0));
 	}
 
 	@PostConstruct
