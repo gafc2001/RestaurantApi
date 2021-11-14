@@ -44,7 +44,7 @@ public class PaymentController {
 		Stripe.apiKey = "sk_test_51JufoqDOx3uLFoGurrcjLUA7bhhpcA9RI0e5ai1BA1fxxb9Xzqqsl8Kmlye6fnXzsn7diGYrbaIO9scTS31EofFA00MUZZ5Z9y";
 		Map<String, Object> params = new HashMap<>();
 		params.put("payment_method",paymentRequest.getPaymentId());
-		params.put("amount",paymentRequest.getAmount());
+		params.put("amount",paymentRequest.getAmount() * 100);
 		params.put("currency","USD");
 		params.put("confirm",true);
 		try {
