@@ -50,7 +50,7 @@ public class UserController{
 		user.setIdUser(id);
 		return userRepository.save(user);
 	}
-	
+
 	public static final String USERS_IMAGES_FOLDER = "images/users/profile/";
 	@RequestMapping( value = "/{id}/image",method = RequestMethod.GET)
 	public ResponseEntity<?> getProfileImage(@PathVariable("id")Long id){
