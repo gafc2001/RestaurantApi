@@ -45,6 +45,7 @@ public class PaymentController {
 		Map<String, Object> params = new HashMap<>();
 		params.put("payment_method",paymentRequest.getPaymentId());
 		params.put("amount",paymentRequest.getAmount() * 100);
+		params.put("description","DELIBAKERY S.A.C");
 		params.put("currency","USD");
 		params.put("confirm",true);
 		try {
