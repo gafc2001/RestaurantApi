@@ -21,7 +21,7 @@ import com.google.api.gax.rpc.NotFoundException;
 import com.google.cloud.storage.Blob;
 import com.restaurant.api.models.Category;
 import com.restaurant.api.models.Product;
-import com.restaurant.api.payload.MessageResponse;
+import com.restaurant.api.payload.response.MessageResponse;
 import com.restaurant.api.service.CategoryService;
 import com.restaurant.api.service.FirebaseService;
 import com.restaurant.api.service.ProductService;

@@ -1,4 +1,4 @@
-package com.restaurant.api.payload;
+package com.restaurant.api.payload.request;
 
 import lombok.Data;
 

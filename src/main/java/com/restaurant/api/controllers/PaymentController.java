@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.restaurant.api.payload.MessageResponse;
+import com.restaurant.api.payload.response.MessageResponse;
 import com.restaurant.api.payload.request.PaymentRequest;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;

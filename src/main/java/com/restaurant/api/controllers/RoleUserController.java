@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.restaurant.api.models.RoleUser;
-import com.restaurant.api.payload.MessageResponse;
+import com.restaurant.api.payload.response.MessageResponse;
 import com.restaurant.api.service.RoleUserService;
 
 @Controller

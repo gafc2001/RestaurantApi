@@ -4,21 +4,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import com.google.cloud.storage.Blob;
-import com.restaurant.api.models.Profile;
-import com.restaurant.api.payload.MessageResponse;
 import com.restaurant.api.payload.response.SummaryReport;
 import com.restaurant.api.repositories.UserRepository;
 import com.restaurant.api.service.FirebaseService;
 import com.restaurant.api.utils.ImageTools;
 import com.restaurant.api.utils.SummaryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.restaurant.api.models.User;
