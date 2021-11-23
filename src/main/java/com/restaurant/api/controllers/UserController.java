@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.cloud.storage.Blob;
-import com.restaurant.api.payload.response.SummaryReport;
+import com.restaurant.api.dto.response.SummaryReport;
 import com.restaurant.api.repositories.UserRepository;
 import com.restaurant.api.service.FirebaseService;
 import com.restaurant.api.utils.ImageTools;

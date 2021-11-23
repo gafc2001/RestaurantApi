@@ -14,6 +14,7 @@ public class Profile implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_profile")
+    
     private Long idProfile;
 
     @OneToOne(mappedBy = "profile")
@@ -26,6 +27,7 @@ public class Profile implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
+    @JsonIgnore
     @Column(name = "profile_picture")
     private String profilePicture;
 

@@ -8,23 +8,22 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.restaurant.api.payload.request.PasswordReset;
+import com.restaurant.api.dto.request.PasswordReset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.restaurant.api.models.RoleUser;
 import com.restaurant.api.models.User;
-import com.restaurant.api.payload.response.JwtResponse;
-import com.restaurant.api.payload.request.LoginRequest;
-import com.restaurant.api.payload.response.MessageResponse;
-import com.restaurant.api.payload.request.SignupRequest;
+import com.restaurant.api.dto.response.JwtResponse;
+import com.restaurant.api.dto.request.LoginRequest;
+import com.restaurant.api.dto.response.MessageResponse;
+import com.restaurant.api.dto.request.SignupRequest;
 import com.restaurant.api.repositories.RoleRepository;
 import com.restaurant.api.repositories.UserRepository;
 import com.restaurant.api.security.JwtUtils;

@@ -1,10 +1,8 @@
-package com.restaurant.api.payload.response;
+package com.restaurant.api.dto.response;
 
 import com.restaurant.api.models.User;
 import lombok.Data;
 import lombok.NonNull;
-
-import java.sql.Timestamp;
 
 @Data
 public class OrderReport {

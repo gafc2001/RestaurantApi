@@ -1,9 +1,9 @@
 package com.restaurant.api.controllers;
 
-import com.restaurant.api.payload.request.UpdateStatus;
-import com.restaurant.api.payload.response.MostOrdered;
-import com.restaurant.api.payload.response.OrderReport;
-import com.restaurant.api.payload.response.SummaryReport;
+import com.restaurant.api.dto.request.UpdateStatus;
+import com.restaurant.api.dto.response.MostOrdered;
+import com.restaurant.api.dto.response.OrderReport;
+import com.restaurant.api.dto.response.SummaryReport;
 import com.restaurant.api.utils.SummaryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +15,8 @@ import com.restaurant.api.models.Payment;
 import com.restaurant.api.models.PaymentMethod;
 import com.restaurant.api.models.Product;
 import com.restaurant.api.models.User;
-import com.restaurant.api.payload.request.OrderDetailRequest;
-import com.restaurant.api.payload.request.OrderRequest;
+import com.restaurant.api.dto.request.OrderDetailRequest;
+import com.restaurant.api.dto.request.OrderRequest;
 import com.restaurant.api.repositories.OrderDetailRepository;
 import com.restaurant.api.repositories.OrderRepository;
 import com.restaurant.api.repositories.PaymentMethodRepository;

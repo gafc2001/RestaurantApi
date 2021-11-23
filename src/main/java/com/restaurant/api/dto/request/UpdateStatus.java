@@ -1,4 +1,4 @@
-package com.restaurant.api.payload.request;
+package com.restaurant.api.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,10 +1,9 @@
 package com.restaurant.api.controllers;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.restaurant.api.payload.response.SummaryReport;
+import com.restaurant.api.dto.response.SummaryReport;
 import com.restaurant.api.utils.SummaryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

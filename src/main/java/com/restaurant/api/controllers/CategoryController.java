@@ -2,7 +2,7 @@ package com.restaurant.api.controllers;
 
 import java.util.List;
 
-import com.restaurant.api.payload.response.Chart;
+import com.restaurant.api.dto.response.Chart;
 import com.restaurant.api.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

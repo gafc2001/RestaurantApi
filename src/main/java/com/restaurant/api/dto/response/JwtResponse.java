@@ -1,4 +1,4 @@
-package com.restaurant.api.payload.response;
+package com.restaurant.api.dto.response;
 
 import java.util.List;
 
