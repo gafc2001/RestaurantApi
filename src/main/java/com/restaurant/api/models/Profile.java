@@ -14,7 +14,7 @@ public class Profile implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_profile")
-    
+
     private Long idProfile;
 
     @OneToOne(mappedBy = "profile")

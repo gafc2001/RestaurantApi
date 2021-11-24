@@ -1,10 +1,13 @@
 package com.restaurant.api.controllers;
 
+import com.restaurant.api.dto.response.MessageResponse;
 import com.restaurant.api.models.Profile;
 import com.restaurant.api.models.User;
 import com.restaurant.api.repositories.ProfileRepository;
 import com.restaurant.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -21,9 +24,15 @@ public class ProfileController {
     private ProfileRepository profileRepository;
 
     @GetMapping(value = "/{id}/profile")
-    public Profile findProfileById(@PathVariable("id")Long id){
+    public ResponseEntity<?> findProfileById(@PathVariable("id")Long id){
         User user = userRepository.findById(id).get();
-        return user.getProfile();
+        Optional<Profile> profileOpt = Optional.ofNullable( user.getProfile());
+        if(profileOpt.isPresent()){
+            return ResponseEntity.ok().body(profileOpt.get());
+        }else{
+            return new ResponseEntity<MessageResponse>(new MessageResponse("Profile NOT found"), HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @PostMapping(value = "/{id}/profile")
