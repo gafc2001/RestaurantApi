@@ -1,5 +1,7 @@
 package com.restaurant.api.controllers;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -81,6 +83,8 @@ public class RoleUserController {
 				roles.add(userRole);
 		}
 		user.setRoles(roles);
+		Timestamp ts = Timestamp.from(Instant.now());
+		user.setUpdatedAt(ts);
 		User userSaved = userRepository.save(user);
 		return ResponseEntity.ok().body(userSaved);
 	}
