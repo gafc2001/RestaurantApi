@@ -20,8 +20,9 @@ public interface OrderRepository extends JpaRepository<OrderUser, Long>{
 	List<List<Object>> getMostOrdered(Date range,Date current);
 
 
-	@Query("SELECT o.user,o.description,o.totalPrice,o.statusOrder,o.createdAt" +
-				  " FROM OrderUser o WHERE o.createdAt >= ?1 AND o.createdAt<=?2")
+	@Query("SELECT o.user,p.address,o.totalPrice,o.statusOrder,o.createdAt" +
+		   " FROM OrderUser o JOIN o.user u JOIN u.profile p" +
+		   " WHERE o.createdAt >= ?1 AND o.createdAt<=?2")
 	List<List<Object>> getOrderReport(Date range, Date current);
 
 	@Query("SELECT SUM(o.totalPrice) FROM OrderUser o WHERE o.createdAt >= ?1 AND o.createdAt<=?2")

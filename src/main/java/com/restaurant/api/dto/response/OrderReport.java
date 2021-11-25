@@ -10,7 +10,7 @@ public class OrderReport {
     @NonNull
     private User user;
     @NonNull
-    private String description;
+    private String address;
     @NonNull
     private Long total;
     @NonNull
