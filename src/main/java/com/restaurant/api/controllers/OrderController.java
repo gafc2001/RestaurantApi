@@ -96,8 +96,8 @@ public class OrderController {
 	public OrderUser updateStatus(@PathVariable(value = "id")Long id, @RequestBody UpdateStatus status){
 		OrderUser orderUser = orderRepository.findById(id).get();
 		orderUser.setStatusOrder(status.getStatus());
-		orderRepository.save(orderUser);
-		return orderUser;
+		OrderUser orderSaved = orderRepository.save(orderUser);
+		return orderSaved;
 	}
 
 	@GetMapping("/mostOrdered")
