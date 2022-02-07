@@ -1,4 +1,4 @@
-package com.restaurant.api.controllers;
+package com.restaurant.api.controllers.rest;
 
 import com.restaurant.api.dto.request.UpdateStatus;
 import com.restaurant.api.dto.response.MostOrdered;

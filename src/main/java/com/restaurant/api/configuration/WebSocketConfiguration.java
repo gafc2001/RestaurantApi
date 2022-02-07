@@ -1,6 +1,6 @@
 package com.restaurant.api.configuration;
 
-import com.restaurant.api.controllers.ChatController;
+import com.restaurant.api.controllers.rest.ChatController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.WebSocketHandler;

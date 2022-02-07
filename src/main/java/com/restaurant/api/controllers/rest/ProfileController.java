@@ -1,4 +1,4 @@
-package com.restaurant.api.controllers;
+package com.restaurant.api.controllers.rest;
 
 import com.restaurant.api.dto.response.MessageResponse;
 import com.restaurant.api.models.Profile;

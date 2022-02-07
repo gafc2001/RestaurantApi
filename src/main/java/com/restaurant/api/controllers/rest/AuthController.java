@@ -1,4 +1,4 @@
-package com.restaurant.api.controllers;
+package com.restaurant.api.controllers.rest;
 
 import java.util.HashSet;
 import java.util.List;

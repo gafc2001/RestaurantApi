@@ -1,4 +1,4 @@
-package com.restaurant.api.controllers;
+package com.restaurant.api.controllers.rest;
 
 import java.sql.Timestamp;
 import java.time.Instant;

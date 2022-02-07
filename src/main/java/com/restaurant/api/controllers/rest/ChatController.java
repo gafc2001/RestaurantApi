@@ -1,4 +1,4 @@
-package com.restaurant.api.controllers;
+package com.restaurant.api.controllers.rest;
 
 
 import org.springframework.web.bind.annotation.CrossOrigin;

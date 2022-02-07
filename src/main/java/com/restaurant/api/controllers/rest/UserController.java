@@ -1,4 +1,4 @@
-package com.restaurant.api.controllers;
+package com.restaurant.api.controllers.rest;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
