@@ -21,7 +21,7 @@ import com.restaurant.api.models.RoleUser;
 import com.restaurant.api.dto.response.MessageResponse;
 import com.restaurant.api.service.RoleUserService;
 
-@Controller
+@RestController
 @RequestMapping(value = "/api/roles")
 @CrossOrigin
 public class RoleUserController {
