@@ -10,7 +10,7 @@ import org.springframework.core.SpringVersion;
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
-@SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
+@SpringBootApplication()
 public class RestaurantApiApplication implements CommandLineRunner{
 	
 	public static void main(String[] args) {

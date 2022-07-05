@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -15,7 +16,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 public class HibernateConfiguration {
-	
+	@Value("${db.driver}")
+	private String driver;
+
+	@Value("${db.username}")
+	private String username;
+
+	@Value("${db.password}")
+	private String password;
+
+	@Value("${db.url}")
+	private String url;
+
+	@Value("${db.dialect}")
+	private String dialect;
+
 	@Bean(name = "entityManagerFactory")
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean session= new LocalSessionFactoryBean();
@@ -29,19 +44,17 @@ public class HibernateConfiguration {
 	public DataSource dataSource() {
 		
 		DriverManagerDataSource driverDataSource = new DriverManagerDataSource();
-		driverDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		/*driverDataSource.setUsername("root");
-		driverDataSource.setPassword("");
-		driverDataSource.setUrl("jdbc:mysql://localhost:3306/delibakery");*/
-		driverDataSource.setUsername("bd0744e00e65f9");
-		driverDataSource.setPassword("3a9de651");
-		driverDataSource.setUrl("jdbc:mysql://us-cdbr-east-04.cleardb.com/heroku_adc647a2419265a");
+
+
+		driverDataSource.setDriverClassName(driver);
+		driverDataSource.setUsername(username);
+		driverDataSource.setPassword(password);
+		driverDataSource.setUrl(url);
 		return driverDataSource;
 	}
 	public Properties hibernateProperties() {
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
-		
+		properties.setProperty("hibernate.dialect",dialect);
 		return properties;
 	}
 	
