@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dspring.profiles.active=prod -cp target/classes:target/dependency/* com.restaurant.api.RestaurantApiApplication
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.restaurant.api.RestaurantApiApplication
