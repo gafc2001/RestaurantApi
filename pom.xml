@@ -100,7 +100,7 @@
 				<version>${project.parent.version}</version>
 				<configuration>
 					<mainClass>com.restaurant.api.RestaurantApiApplication</mainClass>
-					<layout>ZIP</layout>
+					<layout>JAR</layout>
 				</configuration>
 			</plugin>
 		</plugins>
